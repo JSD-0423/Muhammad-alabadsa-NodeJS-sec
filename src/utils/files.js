@@ -13,7 +13,6 @@ export class FileUtils {
   }
 
   getAbsoluteFilePath({ dirname, filePath, fileName }) {
-    console.log({ dirname, filePath, fileName });
     const absoluteFilePath = this.pathModule.resolve(
       this.pathModule.join(dirname, filePath, fileName)
     );
@@ -35,7 +34,6 @@ export class FileUtils {
   async readFile(absoluteFilePath) {
     try {
       const data = await this.fileModule.readFile(absoluteFilePath, "utf8");
-      console.log({ data });
       return data;
     } catch (error) {
       throw new ApiError(
@@ -45,9 +43,9 @@ export class FileUtils {
     }
   }
 
-  async writeToFile(absoluteFilePath) {
+  async writeToFile(absoluteFilePath, data) {
     try {
-      await this.fileModule.writeFile(absoluteFilePath, "");
+      await this.fileModule.writeFile(absoluteFilePath, data);
     } catch (error) {
       throw new ApiError(
         httpStatus.INTERNAL_SERVER_ERROR,

@@ -11,10 +11,10 @@ class BooksRoute {
   }
 
   initializeRoutes() {
-    console.log({ bookControllers: this.bookControllers });
+    console.log("controllers");
     this.router.get(`${this.path}`, this.bookControllers.getBooks);
     this.router.get(`${this.path}:id`, this.bookControllers.getBook);
-    this.router.post(`${this.path}:id`, this.bookControllers.addNewBook);
+    this.router.post(`${this.path}`, this.bookControllers.addNewBook);
   }
 }
 

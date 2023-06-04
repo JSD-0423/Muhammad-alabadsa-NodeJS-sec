@@ -15,6 +15,8 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+app.set("view engine", "pug");
+app.set("views", path.resolve("./src/views"));
 // v1 api routes
 app.use("/api/v1", bookRoutes);
 
@@ -25,8 +27,8 @@ app.use((req, res, next) => {
 
 app.use((err, req, res, next) => {
   let { statusCode, message } = err;
-  statusCode = httpStatus.INTERNAL_SERVER_ERROR;
-  message = httpStatus[httpStatus.INTERNAL_SERVER_ERROR];
+  statusCode = statusCode || httpStatus.INTERNAL_SERVER_ERROR;
+  message = message || httpStatus[httpStatus.INTERNAL_SERVER_ERROR];
 
   const response = {
     code: statusCode,

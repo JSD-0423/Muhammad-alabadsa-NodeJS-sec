@@ -18,7 +18,6 @@ export class BookServices {
           fileName: "books.json",
         })
       );
-      console.log({ service: "service", books });
       return JSON.parse(books);
     } catch (error) {
       console.log(error);
@@ -27,7 +26,6 @@ export class BookServices {
   }
   async getBookById(bookId) {
     try {
-      console.log({ bookId });
       const books = await this.fileModule.readFile(
         this.fileModule.getAbsoluteFilePath({
           dirname: __dirname,
@@ -36,7 +34,24 @@ export class BookServices {
         })
       );
       const booksList = JSON.parse(books);
-      return booksList.books.find((book) => book.id === +bookId);
+      return booksList.find((book) => book.id === +bookId);
+    } catch (error) {
+      console.log(error);
+      throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, error.message);
+    }
+  }
+
+  async addNewBookToFile(books) {
+    try {
+      const result = await this.fileModule.writeToFile(
+        this.fileModule.getAbsoluteFilePath({
+          dirname: __dirname,
+          filePath: "/store",
+          fileName: "books.json",
+        }),
+        books
+      );
+      console.log({ result });
     } catch (error) {
       console.log(error);
       throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, error.message);
